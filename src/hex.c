@@ -193,15 +193,54 @@ void check_hex(void)
     for (spell = 0; spell < 32; spell++)
     {
         if (!hex_spelling(spell)) continue;
+        /* copied from cmd5 spell exp logic */
+        if (!dun_level) continue; /* no exp in town */
 
-        if (p_ptr->spell_exp[spell] < SPELL_EXP_BEGINNER)
-            p_ptr->spell_exp[spell] += 5;
-        else if(p_ptr->spell_exp[spell] < SPELL_EXP_SKILLED)
-        { if (one_in_(2) && (dun_level > 4) && ((dun_level + 10) > p_ptr->lev)) p_ptr->spell_exp[spell] += 1; }
-        else if(p_ptr->spell_exp[spell] < SPELL_EXP_EXPERT)
-        { if (one_in_(5) && ((dun_level + 5) > p_ptr->lev) && ((dun_level + 5) > s_ptr->slevel)) p_ptr->spell_exp[spell] += 1; }
-        else if(p_ptr->spell_exp[spell] < SPELL_EXP_MASTER)
-        { if (one_in_(5) && ((dun_level + 5) > p_ptr->lev) && (dun_level > s_ptr->slevel)) p_ptr->spell_exp[spell] += 1; }
+        s16b cur_exp = p_ptr->spell_exp[spell];
+        int ratio = (17 + s_ptr->slevel) * 100 / (10 + dun_level);
+        point_t max_tbl[4] = { {60, 1600}, {100, 1200}, {200, 900}, {300, 0} };
+        int max_exp = interpolate(ratio, max_tbl, 4);
+        s16b exp_gain = 0;
+        if (cur_exp < max_exp)
+        {
+            point_t gain_tbl[9] = { /* 0->900->1200->1400->1600 */
+                {0, 128}, {200, 64}, {400, 32}, {600, 16},
+                {800, 8}, {1000, 4}, {1200, 2}, {1400, 1}, {1600, 1} };
+            exp_gain = interpolate(cur_exp, gain_tbl, 9);
+            if (coffee_break) exp_gain *= 5;
+            exp_gain /= 3; /* Divide by 3 to match mana cost, above */
+        }
+        if (exp_gain && (cur_exp + exp_gain) > max_exp) exp_gain = MAX(0, max_exp - cur_exp);
+
+        if (exp_gain)
+        {
+            int old_level = spell_exp_level(cur_exp);
+            int new_level = old_level;
+            int max = SPELL_EXP_MASTER;
+
+            p_ptr->spell_exp[spell] += exp_gain;
+            if (p_ptr->spell_exp[spell] > max)
+                p_ptr->spell_exp[spell] = max;
+            new_level = spell_exp_level(p_ptr->spell_exp[spell]);
+            if (new_level > old_level)
+            {
+                cptr desc[5] = { "Unskilled", "a Beginner", "Skilled", "an Expert", "a Master" };
+                msg_format("You are now <color:B>%s</color> in <color:R>%s</color>.",
+                    desc[new_level],
+                    do_spell(REALM_HEX, spell % 32, SPELL_NAME));
+            }
+            else if (p_ptr->wizard || easy_damage)
+            {
+                msg_format("You now have <color:B>%d</color> proficiency in <color:R>%s</color>.",
+                    p_ptr->spell_exp[spell],
+                    do_spell(REALM_HEX, spell % 32, SPELL_NAME));
+            }
+            else if (p_ptr->spell_exp[spell]/100 > cur_exp/100)
+            {
+                msg_format("<color:B>You are getting more proficient with <color:R>%s</color>.</color>",
+                    do_spell(REALM_HEX, spell % 32, SPELL_NAME));
+            }
+        }
     }
 
     /* Do any effects of continual spells */
