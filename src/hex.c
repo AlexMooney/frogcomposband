@@ -299,10 +299,10 @@ void hex_stop_spelling_spell(int cmd, variant *res)
         var_set_string(res, "Stop Spelling");
         break;
     case SPELL_DESC:
-        var_set_string(res, "");
+        var_set_string(res, "End one of your hex chants immediately.");
         break;
     case SPELL_ENERGY:
-        var_set_int(res, 10);
+        var_set_int(res, 0);
         break;
     case SPELL_FLAGS:
         var_set_int(res, PWR_AFRAID | PWR_CONFUSED);
