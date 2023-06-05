@@ -4290,7 +4290,11 @@ void calc_bonuses(void)
     if (p_ptr->realm1 == REALM_HEX)
     {
         if (hex_spelling_any()) p_ptr->skills.stl -= (1 + p_ptr->magic_num2[0]);
-        if (hex_spelling(HEX_DETECT_EVIL)) p_ptr->esp_evil = TRUE;
+        if (hex_spelling(HEX_DETECT_EVIL))
+        {
+            p_ptr->esp_evil = TRUE;
+            p_ptr->esp_good = TRUE;
+        }
         if (hex_spelling(HEX_DEMON_AURA))
         {
             p_ptr->sh_fire++;

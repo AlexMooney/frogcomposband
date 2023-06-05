@@ -1189,7 +1189,7 @@ bool make_attack_normal(int m_idx)
 
                         dam = mon_damage_mod(m_ptr, dam, FALSE);
 
-                        msg_format("Enveloped shadows attack %^s.", m_name);
+                        msg_format("Your shadow cloak attacks %^s.", m_name);
 
                         if (mon_take_hit(m_idx, dam, DAM_TYPE_AURA, &fear, " is destroyed."))
                         {

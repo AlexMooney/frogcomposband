@@ -8043,8 +8043,8 @@ static cptr do_hex_spell(int spell, int mode)
     {
     /*** 1st book (0-7) ***/
     case 0:
-        if (name) return "Evily blessing";
-        if (desc) return "Attempts to increase +to_hit of a weapon and AC";
+        if (name) return "Evil blessing";
+        if (desc) return "Gives bonus to hit and AC while chanting.";
         if (cast)
         {
             if (!p_ptr->blessed)
@@ -8063,7 +8063,7 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 1:
         if (name) return "Cure light wounds";
-        if (desc) return "Heals cut and HP a little.";
+        if (desc) return "Slowly heals cuts and HP.";
         if (info) return info_heal(1, 10, 0);
         if (cast)
         {
@@ -8078,20 +8078,20 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 2:
         if (name) return "Demonic aura";
-        if (desc) return "Gives fire aura and regeneration.";
+        if (desc) return "Grants a fiery aura and regeneration.";
         if (cast)
         {
-            msg_print("You have enveloped by fiery aura!");
+            msg_print("You are enveloped by a fiery aura!");
         }
         if (stop)
         {
-            msg_print("Fiery aura disappeared.");
+            msg_print("Your fiery aura dissipates.");
         }
         break;
 
     case 3:
         if (name) return "Stinking mist";
-        if (desc) return "Deals few damages of poison to all monsters in your sight.";
+        if (desc) return "Slowly poisons all monsters in your sight.";
         power = plev / 2 + 5 + p_ptr->to_d_spell;
         if (info) return info_damage(1, power, 0);
         if (cast || cont)
@@ -8102,16 +8102,16 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 4:
         if (name) return "Extra might";
-        if (desc) return "Attempts to increase your strength.";
+        if (desc) return "Increase your strength, HP, and blows.";
         if (cast)
         {
-            msg_print("You feel you get stronger.");
+            msg_print("You feel mighty.");
         }
         break;
 
     case 5:
         if (name) return "Curse weapon";
-        if (desc) return "Curses your weapon.";
+        if (desc) return "Curses your weapon, granting a bonus to accuracy.";
         if (cast)
         {
             obj_prompt_t prompt = {0};
@@ -8190,8 +8190,8 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 6:
-        if (name) return "Evil detection";
-        if (desc) return "Detects evil monsters.";
+        if (name) return "Detect Good and Evil";
+        if (desc) return "Gain telepathy for good and evil creatures.";
         if (info) return info_range(MAX_SIGHT);
         if (cast)
         {
@@ -8200,8 +8200,8 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 7:
-        if (name) return "Patience";
-        if (desc) return "Bursts hell fire strongly after patients any damage while few turns.";
+        if (name) return "Inner Hellfire";
+        if (desc) return "Emit ball of Hellfire in 3 + 2d3 turns. Power increased by taking damage.";
         power = MIN(200, p_ptr->magic_num1[2] * 2 + p_ptr->to_d_spell);
         if (info) return info_damage(0, 0, power);
         if (cast)
@@ -8211,14 +8211,14 @@ static cptr do_hex_spell(int spell, int mode)
 
             if (p_ptr->magic_num2[2] > 0)
             {
-                msg_print("You are already patienting.");
+                msg_print("You are already preparing your inner Hellfire.");
                 return NULL;
             }
 
             p_ptr->magic_num2[1] = 1;
             p_ptr->magic_num2[2] = r;
             p_ptr->magic_num1[2] = 0;
-            msg_print("You decide to patient all damages.");
+            msg_print("You begin storing inner Hellfire.");
             add = FALSE;
         }
         if (cont)
@@ -8229,11 +8229,15 @@ static cptr do_hex_spell(int spell, int mode)
 
             if ((p_ptr->magic_num2[2] <= 0) || (power >= 200))
             {
-                msg_print("Time for end of patience!");
                 if (power)
                 {
+                    msg_print("Hellfire pours forth from your body!");
                     project(0, rad, py, px, power, GF_HELL_FIRE,
                         (PROJECT_STOP | PROJECT_GRID | PROJECT_ITEM | PROJECT_KILL));
+                }
+                else
+                {
+                    msg_print("Your inner Hellfire dissipates with no effect.");
                 }
                 if (p_ptr->wizard || easy_damage)
                 {
@@ -8264,7 +8268,7 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 9:
         if (name) return "Cure serious wounds";
-        if (desc) return "Heals cut and HP more.";
+        if (desc) return "Heals cut and HP rapidly.";
         if (info) return info_heal(2, 10, 0);
         if (cast)
         {
@@ -8278,7 +8282,7 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 10:
-        if (name) return "Inhail potion";
+        if (name) return "Inhale potion";
         if (desc) return "Quaffs a potion without canceling of casting a spell.";
         if (cast)
         {
@@ -8291,7 +8295,7 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 11:
         if (name) return "Vampiric mist";
-        if (desc) return "Deals few damages of drain life to all monsters in your sight.";
+        if (desc) return "Slowly drains life of all monsters in your sight.";
         power = (plev / 2) + 5 + p_ptr->to_d_spell;
         if (info) return info_damage(1, power, 0);
         if (cast || cont)
@@ -8302,7 +8306,7 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 12:
         if (name) return "Swords to runeswords";
-        if (desc) return "Gives vorpal ability to your weapon. Increases damages by your weapon according to curse of your weapon.";
+        if (desc) return "Your weapon becomes vorpal and slays good. If cursed, damage is increased.";
         if (cast)
         {
             if (p_ptr->weapon_ct > 1)
@@ -8311,7 +8315,7 @@ static cptr do_hex_spell(int spell, int mode)
                 msg_print("Your weapon glows bright black.");
         }
         if (stop)
-            msg_format("Brightness of weapon%s disappeared.", (p_ptr->weapon_ct <= 1) ? "" : "s");
+            msg_format("Your weapon%s stops glowing black.", (p_ptr->weapon_ct <= 1) ? "" : "s");
         break;
 
     case 13:
@@ -8328,11 +8332,11 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 14:
-        if (name) return "Building up";
-        if (desc) return "Attempts to increases your strength, dexterity and constitution.";
+        if (name) return "Temper body";
+        if (desc) return "Increase your strength, dexterity, constitution, HP, and blows.";
         if (cast)
         {
-            msg_print("You feel your body is developed more now.");
+            msg_print("You feel very deadly.");
         }
         break;
 
@@ -8343,7 +8347,7 @@ static cptr do_hex_spell(int spell, int mode)
         if (info) return info_power(power);
         if (cast)
         {
-            msg_print("You feel anyone can not teleport except you.");
+            msg_print("You feel no one can teleport except you.");
         }
         break;
 
@@ -8353,17 +8357,17 @@ static cptr do_hex_spell(int spell, int mode)
         if (desc) return "Gives lightning aura and a bonus to speed.";
         if (cast)
         {
-            msg_print("You have enveloped by electrical aura!");
+            msg_print("You are enveloped by an electrical aura!");
         }
         if (stop)
         {
-            msg_print("Electrical aura disappeared.");
+            msg_print("Your electrical aura dissipates.");
         }
         break;
 
     case 17:
         if (name) return "Cure critical wounds";
-        if (desc) return "Heals cut and HP greatly.";
+        if (desc) return "Heals cuts, stuns, and HP very rapidly.";
         if (info) return info_heal(4, 10, 0);
         if (cast)
         {
@@ -8398,10 +8402,10 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 19:
         if (name) return "Animate Dead";
-        if (desc) return "Raises corpses and skeletons from dead.";
+        if (desc) return "Resurrects nearby corpse and skeletons. And makes these your pets.";
         if (cast)
         {
-            msg_print("You start to call deads.!");
+            msg_print("You call upon the dead to rise!");
         }
         if (cast || cont)
         {
@@ -8411,7 +8415,7 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 20:
         if (name) return "Curse armor";
-        if (desc) return "Curse a piece of armour that you wielding.";
+        if (desc) return "Curse a piece of armour that you wielding, increasing the AC for you.";
         if (cast)
         {
             obj_prompt_t prompt = {0};
@@ -8489,7 +8493,7 @@ static cptr do_hex_spell(int spell, int mode)
 
     case 21:
         if (name) return "Cloak of shadow";
-        if (desc) return "Gives aura of shadow.";
+        if (desc) return "Imbues a cursed cloak and body armor to attack enemies with darkness in melee.";
         if (cast)
         {
             int slot = equip_find_first(object_is_cloak);
@@ -8508,7 +8512,7 @@ static cptr do_hex_spell(int spell, int mode)
             }
             else
             {
-                msg_print("You have enveloped by shadow aura!");
+                msg_print("You are enveloped by a shadow aura!");
             }
         }
         if (cont)
@@ -8524,13 +8528,13 @@ static cptr do_hex_spell(int spell, int mode)
         }
         if (stop)
         {
-            msg_print("Shadow aura disappeared.");
+            msg_print("Your shadow aura dissipates.");
         }
         break;
 
     case 22:
-        if (name) return "Pains to mana";
-        if (desc) return "Deals psychic damages to all monsters in sight, and drains some mana.";
+        if (name) return "Absorb Minds";
+        if (desc) return "Deals psychic damage to all monsters in sight, and absorbs some mana.";
         power = plev * 3 / 2 + p_ptr->to_d_spell;
         if (info) return info_damage(1, power, 0);
         if (cast || cont)
@@ -8540,11 +8544,11 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 23:
-        if (name) return "Eye for an eye";
-        if (desc) return "Returns same damage which you got to the monster which damaged you.";
+        if (name) return "Eye For An Eye";
+        if (desc) return "Returns all damage taken to the monster which damaged you.";
         if (cast)
         {
-            msg_print("You wish strongly you want to revenge anything.");
+            msg_print("You begin a chant of revenge.");
         }
         break;
 

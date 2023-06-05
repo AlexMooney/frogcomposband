@@ -151,7 +151,7 @@ void check_hex(void)
     }
 
 
-    /* Culcurates final mana cost */
+    /* Calculates final mana cost */
     need_mana_frac = 0;
     s64b_div(&need_mana, &need_mana_frac, 0, 3); /* Divide by 3 */
     need_mana += (p_ptr->magic_num2[0] - 1);
