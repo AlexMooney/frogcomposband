@@ -511,7 +511,7 @@ static void prt_stat(int stat)
 #define BAR_PATIENCE 61
 #define BAR_REVENGE 62
 #define BAR_RUNESWORD 63
-#define BAR_VAMPILIC 64
+#define BAR_VAMPIRIC 64
 #define BAR_CURE 65
 #define BAR_ESP_EVIL 66
 #define BAR_CHAOTIC 67
@@ -1149,7 +1149,7 @@ static void prt_status(void)
         if (troika_timeout_flag(OF_BRAND_ELEC)) ADD_FLG(BAR_ATTKELEC);
         if (troika_timeout_flag(OF_BRAND_ACID)) ADD_FLG(BAR_ATTKACID);
         if (troika_timeout_flag(OF_BRAND_MANA)) ADD_FLG(BAR_FORCE);
-        if (troika_timeout_flag(OF_BRAND_VAMP)) ADD_FLG(BAR_VAMPILIC);
+        if (troika_timeout_flag(OF_BRAND_VAMP)) ADD_FLG(BAR_VAMPIRIC);
         if (troika_timeout_flag(OF_BRAND_CHAOS)) ADD_FLG(BAR_CHAOTIC);
         if (troika_timeout_flag(OF_SLAY_EVIL)) ADD_FLG(BAR_HOLY_BLADE);
         if (troika_timeout_flag(OF_SLAY_ORC)) ADD_FLG(BAR_SLAY_ORC);
@@ -1346,7 +1346,7 @@ static void prt_status(void)
         if (hex_spelling(HEX_CONFUSION)) ADD_FLG(BAR_ATTKCONF);
         if (hex_spelling(HEX_EYE_FOR_EYE)) ADD_FLG(BAR_EYEEYE);
         if (hex_spelling(HEX_ANTI_MULTI)) ADD_FLG(BAR_ANTIMULTI);
-        if (hex_spelling(HEX_VAMP_BLADE)) ADD_FLG(BAR_VAMPILIC);
+        if (hex_spelling(HEX_VAMP_BLADE)) ADD_FLG(BAR_VAMPIRIC);
         if (hex_spelling(HEX_ANTI_MAGIC)) ADD_FLG(BAR_ANTIMAGIC);
         if (hex_spelling(HEX_CURE_LIGHT) ||
             hex_spelling(HEX_CURE_SERIOUS) ||

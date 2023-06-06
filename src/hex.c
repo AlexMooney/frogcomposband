@@ -2,10 +2,10 @@
 
 /* Flag list */
 /*
-p_ptr-magic_num1
+p_ptr->magic_num1
 0: Flag bits of spelling spells
 1: Flag bits of despelled spells
-2: Revange damage
+2: Revenge damage
 p_ptr->magic_num2
 0: Number of spelling spells
 1: Type of revenge
