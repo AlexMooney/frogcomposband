@@ -8190,7 +8190,7 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 6:
-        if (name) return "Detect Good and Evil";
+        if (name) return "Sense Good and Evil";
         if (desc) return "Gain telepathy for good and evil creatures.";
         if (info) return info_range(MAX_SIGHT);
         if (cast)

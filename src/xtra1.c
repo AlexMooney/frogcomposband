@@ -716,7 +716,7 @@ static struct {
     {TERM_L_DARK, "Rs", "RuneSword"},
     {TERM_RED, "Vm", "Vampiric"},
     {TERM_WHITE, "Cu", "Cure"},
-    {TERM_L_DARK, "ET", "EvilTele"},
+    {TERM_L_DARK, "SGE", "SenseG&E"},
     {TERM_VIOLET, "Ch", "Chaotic"},
     {TERM_ORANGE, "Sh", "Shield"},
     {TERM_YELLOW, "Sk", "Seek"},
