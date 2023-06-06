@@ -8255,14 +8255,14 @@ static cptr do_hex_spell(int spell, int mode)
     /*** 2nd book (8-15) ***/
     case 8:
         if (name) return "Ice armor";
-        if (desc) return "Gives cold aura and bonus to AC.";
+        if (desc) return "Grants a freezing aura and bonus to AC.";
         if (cast)
         {
             msg_print("You have enveloped by ice armor!");
         }
         if (stop)
         {
-            msg_print("Ice armor disappeared.");
+            msg_print("Your ice armor melts away.");
         }
         break;
 
@@ -8305,7 +8305,7 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 12:
-        if (name) return "Swords to runeswords";
+        if (name) return "Swords to Runeswords";
         if (desc) return "Your weapon becomes vorpal and slays good. If cursed, damage is increased.";
         if (cast)
         {
@@ -8353,8 +8353,8 @@ static cptr do_hex_spell(int spell, int mode)
 
     /*** 3rd book (16-23) ***/
     case 16:
-        if (name) return "Cloak of shock";
-        if (desc) return "Gives lightning aura and a bonus to speed.";
+        if (name) return "Cloak of Lightning";
+        if (desc) return "Grants a lightning aura and a bonus to speed.";
         if (cast)
         {
             msg_print("You are enveloped by an electrical aura!");
@@ -8492,7 +8492,7 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 21:
-        if (name) return "Cloak of shadow";
+        if (name) return "Cloak of Shadow";
         if (desc) return "Imbues a cursed cloak and body armor to attack enemies with darkness in melee.";
         if (cast)
         {
@@ -8558,7 +8558,7 @@ static cptr do_hex_spell(int spell, int mode)
         if (desc) return "Obstructs all multiplying by monsters in entire floor.";
         if (cast)
         {
-            msg_print("You feel anyone can not already multiply.");
+            msg_print("You obstruct all multiplying creatures.");
         }
         break;
 
@@ -8630,8 +8630,8 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 26:
-        if (name) return "Drain curse power";
-        if (desc) return "Drains curse on your weapon and heals SP a little.";
+        if (name) return "Drain Curse";
+        if (desc) return "Drains a curse from your equipment to restore SPs.";
         if (cast)
         {
             obj_prompt_t prompt = {0};
@@ -8676,7 +8676,7 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 27:
-        if (name) return "Swords to vampires";
+        if (name) return "Vampiric Weapon";
         if (desc) return "Gives vampiric ability to your weapon.";
         if (cast)
         {
@@ -8686,11 +8686,11 @@ static cptr do_hex_spell(int spell, int mode)
                 msg_print("Your weapon wants more blood now.");
         }
         if (stop)
-            msg_format("Thirsty of weapon%s disappeared.", (p_ptr->weapon_ct <= 1) ? "" : "s");
+            msg_format("The thirst of your weapon%s disappeared.", (p_ptr->weapon_ct <= 1) ? "" : "s");
         break;
 
     case 28:
-        if (name) return "Word of stun";
+        if (name) return "Word of Stun";
         if (desc) return "Stuns all monsters in your sight.";
         if (cast || cont)
         {
@@ -8699,7 +8699,7 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 29:
-        if (name) return "Moving into shadow";
+        if (name) return "Moving Into Shadow";
         if (desc) return "Teleports you close to a monster.";
         if (cast)
         {
@@ -8746,19 +8746,19 @@ static cptr do_hex_spell(int spell, int mode)
         break;
 
     case 30:
-        if (name) return "Anti magic barrier";
+        if (name) return "Anti Magic Barrier";
         if (desc) return "Obstructs all magic spell of monsters in your sight.";
         power = plev * 3 / 2;
         if (info) return info_power(power);
         if (cast)
         {
-            msg_print("You feel anyone can not cast spells except you.");
+            msg_print("You disrupt magic for everyone except you.");
         }
         break;
 
     case 31:
-        if (name) return "Revenge sentence";
-        if (desc) return "Fires  a ball of hell fire to try revenging after few turns.";
+        if (name) return "Revenge Sentence";
+        if (desc) return "Fires a ball of Hellfire to extract revenge after few turns.";
         power = p_ptr->magic_num1[2] + p_ptr->to_d_spell;
         if (info) return info_damage(0, 0, power);
         if (cast)
@@ -8792,7 +8792,7 @@ static cptr do_hex_spell(int spell, int mode)
 
                     do
                     {
-                        msg_print("Time to revenge!");
+                        msg_print("Time for revenge!");
                     }
                     while (!get_fire_dir(&dir));
 
