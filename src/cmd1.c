@@ -5097,11 +5097,6 @@ void move_player(int dir, bool do_pickup, bool break_trap)
     bool shadow_strike = FALSE;
     bool oktomove = TRUE;
     bool do_past = FALSE;
-    bool do_shoo = FALSE;
-    int  shoo_y = 0;
-    int  shoo_x = 0;
-    int  shoo_m_idx = 0;
-    int  shoo_energy = 0;
     int  past_pet_m_idx = 0;
     int  past_pet_energy = 0;
 
@@ -5169,10 +5164,21 @@ void move_player(int dir, bool do_pickup, bool break_trap)
                     past_pet_energy = monster_move_energy(m_ptr, py, px);
                 }
             }
-            else if (is_pet(m_ptr) && m_ptr->id != p_ptr->riding && pet_find_shove_grid(m_ptr, &shoo_y, &shoo_x, &shoo_energy))
+            else if (is_pet(m_ptr) && m_ptr->id != p_ptr->riding)
             {
-                do_shoo = TRUE;
-                shoo_m_idx = m_ptr->id;
+                /* Shove the pet aside before moving, mirroring the tunneling
+                 * path, so the move never swaps it onto the player's old
+                 * square (which it may not be able to occupy). */
+                if (pet_shove_aside(c_ptr->m_idx))
+                {
+                    msg_format("You shoo %s out of the way.", m_name);
+                }
+                else
+                {
+                    msg_format("%^s is in your way!", m_name);
+                    energy_use = 0;
+                    oktomove = FALSE;
+                }
             }
             else
             {
@@ -5767,12 +5773,7 @@ void move_player(int dir, bool do_pickup, bool break_trap)
         /* Move the player */
         if (move_player_effect(y, x, mpe_mode))
         {
-            if (do_shoo && shoo_m_idx > 0)
-            {
-                if (pet_shove_aside(shoo_m_idx))
-                    msg_format("You shoo %s out of the way.", m_name);
-            }
-            else if (do_past)
+            if (do_past)
             {
                 if (past_pet_m_idx > 0)
                     m_list[past_pet_m_idx].energy_need += past_pet_energy;
