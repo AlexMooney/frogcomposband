@@ -3106,6 +3106,8 @@ void do_cmd_fire_aux2(obj_ptr bow, obj_ptr arrows, int sx, int sy, int tx, int t
     u16b path_g[512];
     int  flgs = PROJECT_PATH | PROJECT_THRU;
     int  msec = delay_time();
+    /* Player ammo flight animates at a third of the normal delay */
+    int  flight_msec = msec / 3;
     bool stick_to = FALSE;
 
     /* Sniper - Cannot shoot a single arrow twice */
@@ -3330,7 +3332,7 @@ void do_cmd_fire_aux2(obj_ptr bow, obj_ptr arrows, int sx, int sy, int tx, int t
                 print_rel(c, a, ny, nx);
                 move_cursor_relative(ny, nx);
                 Term_fresh();
-                Term_xtra(TERM_XTRA_DELAY, msec);
+                Term_xtra(TERM_XTRA_DELAY, flight_msec);
                 lite_spot(ny, nx);
                 Term_fresh();
             }
@@ -3338,7 +3340,7 @@ void do_cmd_fire_aux2(obj_ptr bow, obj_ptr arrows, int sx, int sy, int tx, int t
             else
             {
                 /* Pause anyway, for consistancy */
-                Term_xtra(TERM_XTRA_DELAY, msec);
+                Term_xtra(TERM_XTRA_DELAY, flight_msec);
             }
 
             /* Sniper */

@@ -27,6 +27,7 @@ bool py_throw(py_throw_ptr context)
 void _animate(py_throw_ptr context)
 {
     int x, y;
+    /* Thrown-item arcs animate at a third of the normal delay */
     int msec = delay_time();
 
     y = GRID_Y(context->path[context->path_pos]);

@@ -2673,6 +2673,9 @@ bool project(int who, int rad, int y, int x, int dam, int typ, int flg)
     int y_saver, x_saver; /* For reflecting monsters */
 
     int msec = delay_time();
+    /* Speed only the player's own bolt/ball flight; beams and blasts keep the
+     * primary delay. */
+    int flight_msec = (who == PROJECT_WHO_PLAYER && !(flg & PROJECT_BEAM)) ? msec / 3 : msec;
 
     /* Assume the player sees nothing */
     bool notice = FALSE;
@@ -3184,7 +3187,7 @@ bool project(int who, int rad, int y, int x, int dam, int typ, int flg)
                 print_rel(c, a, y, x);
                 move_cursor_relative(y, x);
                 /*if (fresh_before)*/ Term_fresh();
-                Term_xtra(TERM_XTRA_DELAY, msec);
+                Term_xtra(TERM_XTRA_DELAY, flight_msec);
                 lite_spot(y, x);
                 /*if (fresh_before)*/ Term_fresh();
 
@@ -3210,7 +3213,7 @@ bool project(int who, int rad, int y, int x, int dam, int typ, int flg)
             else if (visual)
             {
                 /* Delay for consistency */
-                Term_xtra(TERM_XTRA_DELAY, msec);
+                Term_xtra(TERM_XTRA_DELAY, flight_msec);
             }
         }
     }
