@@ -46,7 +46,7 @@ endif
 # let Makefile.inc set VERSION and then we'll use the detailed build ID as the bundle version (visible in "About Angband")
 include Makefile.inc
 
-BUNDLE_VERSION := VERSION
+BUNDLE_VERSION := $(VERSION)
 CFLAGS += -DBUILD_ID=${VERSION}
 OBJS = $(BASEOBJS)
 OSX_OBJS = main-cocoa.o
@@ -196,6 +196,7 @@ PACKAGE_NAME = $(NAME)-$(DIST_VERSION)
 # In the unlikely event that tar+zip isn't enough...
 
 dist: install
+	codesign --force --sign - "$(APPBNDL)"
 	@rm -rf disttemp*
 	mkdir -p disttemp/Docs
 	cp ../README.md disttemp/Docs

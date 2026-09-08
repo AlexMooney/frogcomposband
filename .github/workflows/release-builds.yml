@@ -224,6 +224,7 @@ jobs:
           log="$PWD/dist/macos-smoke-${MACOS_ARCH}.log"
           hdiutil attach "$dmg" -mountpoint "$mount_dir" -nobrowse -quiet
           trap 'hdiutil detach "$mount_dir" -quiet || true; rmdir "$mount_dir" || true' EXIT
+          codesign --verify --strict --verbose=2 "$mount_dir/FroxComposband.app"
           set +e
           "$mount_dir/FroxComposband.app/Contents/MacOS/FroxComposband" -t="$log" >"$stdout" 2>"$stderr"
           status=$?
