@@ -594,14 +594,7 @@ static bool _build_room(room_ptr room, transform_ptr xform, rect_t r, rect_t exc
     }
     if (room->type == ROOM_AMBUSH)
     {
-        msg_print("Press <color:y>Space</color> to continue.");
-        flush();
-        for (;;)
-        {
-            char ch = inkey();
-            if (ch == ' ') break;
-        }
-        msg_line_clear();
+        msg_prompt("Press <color:y>Space</color> to continue.", " ", PROMPT_FORCE_CHOICE);
     }
     return TRUE;
 }

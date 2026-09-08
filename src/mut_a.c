@@ -1439,14 +1439,7 @@ void fumbling_mut(int cmd, variant *res)
                 {
                     cmsg_print(TERM_VIOLET, "You drop your weapon!");
                     equip_drop(o_ptr);
-                    msg_print("Press 'Y' to continue.");
-                    flush();
-                    for (;;)
-                    {
-                        char ch = inkey();
-                        if (ch == 'Y') break;
-                    }
-                    msg_line_clear();
+                    msg_prompt("Press 'Y' to continue.", "Y", PROMPT_FORCE_CHOICE | PROMPT_CASE_SENSITIVE);
                 }
             }
         }

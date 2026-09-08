@@ -475,14 +475,7 @@ void _return(py_throw_ptr context)
 
             if (context->obj->loc.where == INV_EQUIP)
             {
-                msg_print("Press <color:y>Space</color> to continue.");
-                flush();
-                for (;;)
-                {
-                    char ch = inkey();
-                    if (ch == ' ') break;
-                }
-                msg_line_clear();
+                msg_prompt("Press <color:y>Space</color> to continue.", " ", PROMPT_FORCE_CHOICE);
             }
         }
         if (!context->come_back)

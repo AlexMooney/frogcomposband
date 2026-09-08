@@ -2054,14 +2054,7 @@ void ring_process_m(int m_idx)
                 handle_stuff();
 
                 /* This can be quite jarring when it happens out of the blue! */ 
-                msg_print("Press Space to continue.");
-                flush();
-                for (;;)
-                {
-                    char ch = inkey();
-                    if (ch == ' ') break;
-                }
-                msg_line_clear();
+                msg_prompt("Press Space to continue.", " ", PROMPT_FORCE_CHOICE);
            }
         }
     }
