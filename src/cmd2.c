@@ -2379,6 +2379,8 @@ static void do_cmd_walk_aux(int dir, bool pickup)
 void do_cmd_walk(bool pickup)
 {
     int dir;
+    int old_py = py;
+    int old_px = px;
 
     bool more = FALSE;
 
@@ -2420,8 +2422,11 @@ void do_cmd_walk(bool pickup)
 		more = TRUE;
 	}
 
-    /* Hack again -- Is there a special encounter ??? */
-    if (p_ptr->wild_mode && !cave_have_flag_bold(py, px, FF_TOWN))
+    /* Hack again -- Is there a special encounter ???  Only after an actual
+     * world-map move: blocked steps, riding refusals and cancelled prompts
+     * leave the player in place and must not roll the ambush chance. */
+    if (p_ptr->wild_mode && (py != old_py || px != old_px)
+        && !cave_have_flag_bold(py, px, FF_TOWN))
     {
         int lvl = wilderness_level(px, py);
         int tmp = MAX(1, 120 + p_ptr->lev*10 - lvl + 5);
