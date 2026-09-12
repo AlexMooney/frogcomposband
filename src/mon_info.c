@@ -645,7 +645,38 @@ static cptr _method_desc(int method)
     }
     return "Weird";
 }
-static string_ptr _effect_desc(mon_race_ptr race, mon_effect_ptr effect)
+static int _centidamage(mon_race_ptr race, mon_effect_ptr effect, mon_blow_ptr blow)
+{
+    int cdamage = 0;
+    int rlev, skill, dodge;
+    gf_info_ptr gf = gf_lookup(effect->effect);
+
+    if (_know_melee_damage(race, effect) && effect->dd && effect->ds)
+    {
+        if ((gf && !(gf->flags & GFF_ATTACK)) || effect->effect == RBE_DRAIN_EXP)
+            return cdamage;
+
+        // string_printf(s, " (%dd%d)", effect->dd, effect->ds);
+        cdamage = 50 * effect->dd * (effect->ds + 1);
+
+        rlev = MAX(4, race->level);
+        skill = blow->power + rlev*3;
+        dodge = 5 + (MIN(100, 100 * (p_ptr->dis_ac * 3 / 4) / skill) * 9 + 5) / 10;
+        cdamage = cdamage * (100 - dodge) / 100;
+
+        if (effect->effect == RBE_HURT || effect->effect == RBE_SHATTER)
+        {
+            cdamage = cdamage * ac_melee_pct(p_ptr->dis_ac) / 100;
+        }
+        if (gf && gf->resist != RES_INVALID)
+        {
+            int pct = res_pct_known(gf->resist);
+            cdamage = cdamage * (100 - pct) / 100;
+        }
+    }
+    return cdamage;
+}
+static string_ptr _effect_desc(mon_race_ptr race, mon_effect_ptr effect, mon_blow_ptr blow)
 {
     string_ptr s;
 
@@ -677,9 +708,9 @@ static string_ptr _effect_desc(mon_race_ptr race, mon_effect_ptr effect)
     if (_know_melee_damage(race, effect))
     {
         if (effect->pct && effect->dd && effect->ds)
-            string_printf(s, " (%dd%d,%d%%)", effect->dd, effect->ds, effect->pct);
+            string_printf(s, " (%dd%d,%d%%) [%d]", effect->dd, effect->ds, effect->pct, _centidamage(race, effect, blow));
         else if (effect->dd && effect->ds)
-            string_printf(s, " (%dd%d)", effect->dd, effect->ds);
+            string_printf(s, " (%dd%d) [%d]", effect->dd, effect->ds, _centidamage(race, effect, blow));
         else if (effect->pct)
             string_printf(s, " (%d%%)", effect->pct);
     }
@@ -703,7 +734,8 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
         doc_insert(doc, "Attacks : <color:D>None</color>\n");
     else if (_ct_known_attacks(r_ptr))
     {
-        int i,j;
+        int i, j, total_centidamage, blow_centidamage, effect_centidamage;
+        total_centidamage = 99; // round up the total damage to the next higher point
         /* XXX Damage display needs some rethinking ... */
         doc_printf(doc, "Attacks : <color:G>%-7.7s Effects</color>\n", "Type");
         for (i = 0; i < MAX_MON_BLOWS; i++)
@@ -713,6 +745,7 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
 
             if (!blow->method) continue;
             if (!_easy_lore(r_ptr) && !blow->lore) continue;
+            blow_centidamage = 0;
 
             v = vec_alloc((vec_free_f)string_free);
             for (j = 0; j < MAX_MON_BLOW_EFFECTS; j++)
@@ -720,7 +753,10 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
                 mon_effect_ptr effect = &blow->effects[j];
                 if (!effect->effect) continue;
                 if (!_easy_lore(r_ptr) && !effect->lore) continue;
-                vec_add(v, _effect_desc(r_ptr, effect));
+                vec_add(v, _effect_desc(r_ptr, effect, blow));
+                effect_centidamage = _centidamage(r_ptr, effect, blow);
+                total_centidamage += effect_centidamage;
+                blow_centidamage += effect_centidamage;
             }
             doc_printf(doc, "          %-7.7s",  _method_desc(blow->method));
             if (vec_length(v))
@@ -729,9 +765,12 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
                 _print_list(v, doc, ',', '\0');
                 doc_insert(doc, "</style></indent>");
             }
+            doc_printf(doc, " [Blow: %d]", blow_centidamage);
             doc_newline(doc);
             vec_free(v);
         }
+        doc_printf(doc, "          Average Total Damage <color:R>%-7d</color>", total_centidamage/100);
+        doc_newline(doc);
     }
     else
         doc_insert(doc, "Attacks : <color:y>?</color>\n");
