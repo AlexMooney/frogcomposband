@@ -764,6 +764,8 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
                     continue;
                 }
                 vec_add(v, _effect_desc(r_ptr, effect));
+                if (effect->dd && effect->ds && !_know_melee_damage(r_ptr, effect))
+                    know_everything = FALSE;
                 total_centidamage += _centidamage(r_ptr, effect, blow);
             }
             doc_printf(doc, "          %-7.7s",  _method_desc(blow->method));
