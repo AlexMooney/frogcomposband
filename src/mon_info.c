@@ -648,7 +648,7 @@ static cptr _method_desc(int method)
 static int _centidamage(mon_race_ptr race, mon_effect_ptr effect, mon_blow_ptr blow)
 {
     int cdamage = 0;
-    int rlev, skill, dodge;
+    int rlev, skill, ac, dodge;
     gf_info_ptr gf = gf_lookup(effect->effect);
 
     if (_know_melee_damage(race, effect) && effect->dd && effect->ds)
@@ -661,12 +661,13 @@ static int _centidamage(mon_race_ptr race, mon_effect_ptr effect, mon_blow_ptr b
 
         rlev = MAX(4, race->level);
         skill = blow->power + rlev*3;
-        dodge = 5 + (MIN(100, 100 * (p_ptr->dis_ac * 3 / 4) / skill) * 9 + 5) / 10;
+        ac = p_ptr->dis_ac + p_ptr->dis_to_a;
+        dodge = 5 + (MIN(100, 100 * (ac * 3 / 4) / skill) * 9 + 5) / 10;
         cdamage = cdamage * (100 - dodge) / 100;
 
         if (effect->effect == RBE_HURT || effect->effect == RBE_SHATTER)
         {
-            cdamage = cdamage * ac_melee_pct(p_ptr->dis_ac) / 100;
+            cdamage = cdamage * ac_melee_pct(ac) / 100;
         }
         if (gf && gf->resist != RES_INVALID)
         {
