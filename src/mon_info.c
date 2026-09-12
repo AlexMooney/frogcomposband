@@ -662,7 +662,7 @@ static int _centidamage(mon_race_ptr race, mon_effect_ptr effect, mon_blow_ptr b
 
         rlev = MAX(4, race->level);
         skill = blow->power + rlev*3;
-        ac = p_ptr->dis_ac + p_ptr->dis_to_a;
+        ac = MAX(0, p_ptr->dis_ac + p_ptr->dis_to_a);
         dodge = 5 + (MIN(100, 100 * (ac * 3 / 4) / skill) * 9 + 5) / 10;
         cdamage = cdamage * (100 - dodge) / 100;
 
