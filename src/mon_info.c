@@ -735,6 +735,7 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
     else if (_ct_known_attacks(r_ptr))
     {
         int i, j, total_centidamage;
+        bool know_everything = TRUE;
         total_centidamage = 99; // round up the total damage to the next higher point
         /* XXX Damage display needs some rethinking ... */
         doc_printf(doc, "Attacks : <color:G>%-7.7s Effects</color>\n", "Type");
@@ -744,14 +745,22 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
             vec_ptr      v;
 
             if (!blow->method) continue;
-            if (!_easy_lore(r_ptr) && !blow->lore) continue;
+            if (!_easy_lore(r_ptr) && !blow->lore)
+            {
+                know_everything = FALSE;
+                continue;
+            }
 
             v = vec_alloc((vec_free_f)string_free);
             for (j = 0; j < MAX_MON_BLOW_EFFECTS; j++)
             {
                 mon_effect_ptr effect = &blow->effects[j];
                 if (!effect->effect) continue;
-                if (!_easy_lore(r_ptr) && !effect->lore) continue;
+                if (!_easy_lore(r_ptr) && !effect->lore)
+                {
+                    know_everything = FALSE;
+                    continue;
+                }
                 vec_add(v, _effect_desc(r_ptr, effect));
                 total_centidamage += _centidamage(r_ptr, effect, blow);
             }
@@ -765,7 +774,7 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
             doc_newline(doc);
             vec_free(v);
         }
-        doc_printf(doc, "          Average Total Damage <color:R>%-7d</color>", total_centidamage/100);
+        doc_printf(doc, "          Average Total Damage <color:R>%s%-7d</color>", know_everything ? "" : "at least ", total_centidamage/100);
         doc_newline(doc);
     }
     else
