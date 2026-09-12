@@ -676,7 +676,7 @@ static int _centidamage(mon_race_ptr race, mon_effect_ptr effect, mon_blow_ptr b
     }
     return cdamage;
 }
-static string_ptr _effect_desc(mon_race_ptr race, mon_effect_ptr effect, mon_blow_ptr blow)
+static string_ptr _effect_desc(mon_race_ptr race, mon_effect_ptr effect)
 {
     string_ptr s;
 
@@ -708,9 +708,9 @@ static string_ptr _effect_desc(mon_race_ptr race, mon_effect_ptr effect, mon_blo
     if (_know_melee_damage(race, effect))
     {
         if (effect->pct && effect->dd && effect->ds)
-            string_printf(s, " (%dd%d,%d%%) [%d]", effect->dd, effect->ds, effect->pct, _centidamage(race, effect, blow));
+            string_printf(s, " (%dd%d,%d%%)", effect->dd, effect->ds, effect->pct);
         else if (effect->dd && effect->ds)
-            string_printf(s, " (%dd%d) [%d]", effect->dd, effect->ds, _centidamage(race, effect, blow));
+            string_printf(s, " (%dd%d)", effect->dd, effect->ds);
         else if (effect->pct)
             string_printf(s, " (%d%%)", effect->pct);
     }
@@ -734,7 +734,7 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
         doc_insert(doc, "Attacks : <color:D>None</color>\n");
     else if (_ct_known_attacks(r_ptr))
     {
-        int i, j, total_centidamage, blow_centidamage, effect_centidamage;
+        int i, j, total_centidamage;
         total_centidamage = 99; // round up the total damage to the next higher point
         /* XXX Damage display needs some rethinking ... */
         doc_printf(doc, "Attacks : <color:G>%-7.7s Effects</color>\n", "Type");
@@ -745,7 +745,6 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
 
             if (!blow->method) continue;
             if (!_easy_lore(r_ptr) && !blow->lore) continue;
-            blow_centidamage = 0;
 
             v = vec_alloc((vec_free_f)string_free);
             for (j = 0; j < MAX_MON_BLOW_EFFECTS; j++)
@@ -753,10 +752,8 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
                 mon_effect_ptr effect = &blow->effects[j];
                 if (!effect->effect) continue;
                 if (!_easy_lore(r_ptr) && !effect->lore) continue;
-                vec_add(v, _effect_desc(r_ptr, effect, blow));
-                effect_centidamage = _centidamage(r_ptr, effect, blow);
-                total_centidamage += effect_centidamage;
-                blow_centidamage += effect_centidamage;
+                vec_add(v, _effect_desc(r_ptr, effect));
+                total_centidamage += _centidamage(r_ptr, effect, blow);
             }
             doc_printf(doc, "          %-7.7s",  _method_desc(blow->method));
             if (vec_length(v))
@@ -765,7 +762,6 @@ static void _display_attacks(monster_race *r_ptr, doc_ptr doc)
                 _print_list(v, doc, ',', '\0');
                 doc_insert(doc, "</style></indent>");
             }
-            doc_printf(doc, " [Blow: %d]", blow_centidamage);
             doc_newline(doc);
             vec_free(v);
         }
