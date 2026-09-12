@@ -656,8 +656,9 @@ static int _centidamage(mon_race_ptr race, mon_effect_ptr effect, mon_blow_ptr b
         if ((gf && !(gf->flags & GFF_ATTACK)) || effect->effect == RBE_DRAIN_EXP)
             return cdamage;
 
-        // string_printf(s, " (%dd%d)", effect->dd, effect->ds);
         cdamage = 50 * effect->dd * (effect->ds + 1);
+        if (effect->pct)
+            cdamage = cdamage * effect->pct / 100;
 
         rlev = MAX(4, race->level);
         skill = blow->power + rlev*3;
