@@ -17836,7 +17836,7 @@ F:DROP_2D2 | ANIMAL | NO_SLEEP | CAN_FLY | RIDING
 F:DROP_CORPSE | POS_GAIN_AC |
 P:Copy:Kutar:Warrior
 P:Body:Horse
-D:A winged white horse that gallops through the heavens."
+D:A winged white horse that gallops through the heavens.
 
 N:991:Sleipnir, the Odin's Steed
 G:q:o
@@ -19148,7 +19148,8 @@ D:waters, a swarm of thousands upon thousands of octopuses—large and
 D:small—surged toward the enemy army, spewing clouds of ink from their mouths.
 D:In an instant, the area was plunged into darkness as deep as a moonless night.
 D:Perhaps choking on the toxic fumes spewed by the octopuses, soldiers tumbled
-D:wildly from their horses or collapsed head over heels, falling one after another...'
+D:wildly from their horses or collapsed head over heels, falling one after
+D:another...'
 
 N:1066:Great Bile Wyrm
 G:D:s
@@ -19227,7 +19228,7 @@ F:REFLECTING | RES_FIRE | RES_COLD | RES_ACID |
 F:OPEN_DOOR | BASH_DOOR | REGENERATE |
 S:FREQ_15 | BR_DISINTEGRATE
 P:Copy:Demigod:Mauler
-D:He is the last survivor of the Skookum tribe, a clan that has since perished
+D:He is the last survivor of the Skookum tribe, a clan that has since perished.
 
 N:1070:Trench Wurm
 G:w:D
