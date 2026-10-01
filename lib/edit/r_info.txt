@@ -17419,8 +17419,8 @@ P:Stats:1:0:0:0:1:1
 P:Life:110
 P:Body:Dragon
 S:FREQ_25 | BRAIN_SMASH | BR_COLD | BA_COLD(1d180+20) | DETECT_OBJECTS 
-D:The oldest and wisest of the ancient dragons of Lodoss, it protects the land from
-D:its evil counterparts.
+D:The oldest and wisest of the ancient dragons of Lodoss, it protects the land
+D:from its evil counterparts.
 
 N:969:Eibra the Water Dragon
 G:D:b
@@ -18008,11 +18008,11 @@ P:Life:110
 P:Body:Dragon
 S:FREQ_30 | BR_LITE | BR_DARK | BR_SOUND | BR_CONFUSION | BR_SHARDS |
 S:BLIND | CONFUSE | SCARE | S_HI_DRAGON | DETECT_OBJECTS 
-D:Bahamut the Platinum Dragon has been described both as the King of All Good Dragons,
-D:and more accurately, as a glorious and resplendent deity in his own right. He is ever
-D:watchful for the cause of lawful good and sits unsleepingly in his palace on Mount
-D:Celestia, the Seven Heavens. Bahamut is the protector of all good dragons and a
-D:fierce opponent of evil.
+D:Bahamut the Platinum Dragon has been described both as the King of All Good
+D:Dragons, and more accurately, as a glorious and resplendent deity in his own
+D:right. He is ever watchful for the cause of lawful good and sits unsleepingly
+D:in his palace on Mount Celestia, the Seven Heavens. Bahamut is the protector of
+D:all good dragons and a fierce opponent of evil.
 
 N:1001:Suke-san, the Mitsukuni's Warder
 G:p:s
@@ -18374,7 +18374,8 @@ S:TELE_TO | BO_MANA
 D:He looks like brawny human being apparently.
 D:However, unlike man, it has the tail of a monkey.
 D:This tail proves he is a Saiyan.
-D:A Saiyan's fighting power is far superior to human's and will bring many destruction.
+D:A Saiyan's fighting power is far superior to human's and will bring many
+D:destruction.
 P:Copy:Human:Beastmaster
 
 N:1023:Hand grenade
@@ -22258,7 +22259,8 @@ F:ANIMAL | RIDING | WILD_SHORE
 F:DROP_CORPSE | POS_GAIN_AC
 P:Copy:Human:Mauler
 P:Body:Elephant
-D:This ridiculous looking creature has a large sail-like fin extending down its back.
+D:This ridiculous looking creature has a large sail-like fin extending down its
+D:back.
 
 #A gesture torward corvids
 
