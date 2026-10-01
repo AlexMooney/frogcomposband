@@ -18056,7 +18056,7 @@ F:INVISIBLE | COLD_BLOOD | PASS_WALL | RES_NETH
 F:UNDEAD | NO_SLEEP | NO_QUEST
 F:POS_SEE_INVIS | POS_HOLD_LIFE
 P:Copy:Hobbit:Warrior
-D:He has only three hair. He is careless, but kind, and always a bit hungry.
+D:He has only three hairs. He is careless, but kind, and always a bit hungry.
 
 N:1004:Pip, the Braver from Another World
 G:p:u
